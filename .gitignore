@@ -2,3 +2,4 @@
 .log
 tmp
 logs
+node_modules

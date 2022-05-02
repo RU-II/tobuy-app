@@ -1,0 +1,244 @@
+openapi: 3.0.1
+info:
+  title: Swagger ToBuyApp API
+  description: This is the ToBuyApp server.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+    email: support@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: "1.0"
+servers:
+- url: //localhost:8080/api/v1
+paths:
+  /items:
+    get:
+      tags:
+      - fetchAllItems
+      summary: Fetch all items
+      description: Fetch all items
+      operationId: itemsGET
+      responses:
+        "200":
+          description: ""
+          content: {}
+        "404":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      x-swagger-router-controller: FetchAllItems
+    post:
+      tags:
+      - createItem
+      summary: Create item
+      description: Create user's item
+      operationId: itemsPOST
+      requestBody:
+        description: Create Item Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.MutationItemRequest'
+        required: true
+      responses:
+        "201":
+          description: ""
+          content: {}
+        "400":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      x-codegen-request-body-name: requestBody
+      x-swagger-router-controller: CreateItem
+  /items/{id}:
+    get:
+      tags:
+      - fetchItemBuyId
+      summary: Fetch item by id
+      description: Fetch user's item by id
+      operationId: itemsIdGET
+      parameters:
+      - name: id
+        in: path
+        description: Item ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ItemResponse'
+        "404":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      x-swagger-router-controller: FetchItemBuyId
+    post:
+      tags:
+      - updateItem
+      summary: Update item
+      description: Update user's item
+      operationId: itemsIdPOST
+      requestBody:
+        description: Update Item Create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.MutationItemRequest'
+        required: true
+      responses:
+        "204":
+          description: ""
+          content: {}
+        "400":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      x-codegen-request-body-name: requestBody
+      x-swagger-router-controller: UpdateItem
+components:
+  schemas:
+    models.BaseItemResponse:
+      type: object
+      properties:
+        category_id:
+          type: integer
+          example: 1
+        counter:
+          type: string
+          example: 数
+        created_at:
+          type: string
+          example: 2022-05-01T17:23:17.494039+09:00
+        deleted_at:
+          type: string
+          example: ""
+        description:
+          type: string
+          example: This is a test item
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: test item
+        number:
+          type: integer
+          example: 1
+        status:
+          type: integer
+          example: 0
+        updated_at:
+          type: string
+          example: 2022-05-01T17:23:17.494039+09:00
+      example:
+        number: 1
+        category_id: 1
+        updated_at: 2022-05-01T17:23:17.494039+09:00
+        name: test item
+        created_at: 2022-05-01T17:23:17.494039+09:00
+        description: This is a test item
+        counter: 数
+        id: 1
+        deleted_at: ""
+        status: 0
+    models.ItemResponse:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/models.BaseItemResponse'
+      example:
+        item:
+          number: 1
+          category_id: 1
+          updated_at: 2022-05-01T17:23:17.494039+09:00
+          name: test item
+          created_at: 2022-05-01T17:23:17.494039+09:00
+          description: This is a test item
+          counter: 数
+          id: 1
+          deleted_at: ""
+          status: 0
+    models.MutationItemRequest:
+      type: object
+      properties:
+        category_id:
+          type: integer
+          example: 1
+        counter:
+          type: string
+          example: 個
+        description:
+          type: string
+          example: This is a test item
+        name:
+          type: string
+          example: test item
+        number:
+          type: integer
+          example: 1
+        status:
+          type: integer
+          example: 0
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+    BasicAuth:
+      type: http
+      scheme: basic
+    OAuth2AccessCode:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: '                            Grants read and write access to administrative
+              information'
+    OAuth2Application:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: '                             Grants read and write access to administrative
+              information'
+            write: '                             Grants write access'
+    OAuth2Implicit:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://example.com/oauth/authorize
+          scopes:
+            admin: '                          Grants read and write access to administrative
+              information'
+            write: '                          Grants write access'
+    OAuth2Password:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: '                          Grants read and write access to administrative
+              information'
+            read: '                           Grants read access'
+            write: '                          Grants write access'
+x-original-swagger-version: "2.0"
