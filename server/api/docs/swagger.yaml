@@ -1,0 +1,200 @@
+basePath: /api/v1
+definitions:
+  models.BaseItemResponse:
+    properties:
+      category_id:
+        example: 1
+        type: integer
+      counter:
+        example: 数
+        type: string
+      created_at:
+        example: "2022-05-01T17:23:17.494039+09:00"
+        type: string
+      deleted_at:
+        example: ""
+        type: string
+      description:
+        example: This is a test item
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: test item
+        type: string
+      number:
+        example: 1
+        type: integer
+      status:
+        example: 0
+        type: integer
+      updated_at:
+        example: "2022-05-01T17:23:17.494039+09:00"
+        type: string
+    type: object
+  models.ItemResponse:
+    properties:
+      item:
+        $ref: '#/definitions/models.BaseItemResponse'
+    type: object
+  models.MutationItemRequest:
+    properties:
+      category_id:
+        example: 1
+        type: integer
+      counter:
+        example: 個
+        type: string
+      description:
+        example: This is a test item
+        type: string
+      name:
+        example: test item
+        type: string
+      number:
+        example: 1
+        type: integer
+      status:
+        example: 0
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is the ToBuyApp server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger ToBuyApp API
+  version: "1.0"
+paths:
+  /items:
+    get:
+      description: Fetch all items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "404":
+          description: ""
+        "500":
+          description: ""
+      summary: Fetch all items
+      tags:
+      - fetchAllItems
+    post:
+      consumes:
+      - application/json
+      description: Create user's item
+      parameters:
+      - description: Create Item Request
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/models.MutationItemRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ""
+        "400":
+          description: ""
+        "500":
+          description: ""
+      summary: Create item
+      tags:
+      - createItem
+  /items/{id}:
+    get:
+      description: Fetch user's item by id
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "404":
+          description: ""
+        "500":
+          description: ""
+      summary: Fetch item by id
+      tags:
+      - fetchItemBuyId
+    post:
+      consumes:
+      - application/json
+      description: Update user's item
+      parameters:
+      - description: Update Item Create
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/models.MutationItemRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: ""
+        "500":
+          description: ""
+      summary: Update item
+      tags:
+      - updateItem
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: '                            Grants read and write access to administrative
+        information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    scopes:
+      admin: '                             Grants read and write access to administrative
+        information'
+      write: '                             Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: '                          Grants read and write access to administrative
+        information'
+      write: '                          Grants write access'
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    scopes:
+      admin: '                          Grants read and write access to administrative
+        information'
+      read: '                           Grants read access'
+      write: '                          Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"

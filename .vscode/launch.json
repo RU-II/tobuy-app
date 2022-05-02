@@ -5,11 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Start tobuy-app server",
+      "name": "Start mock api server",
       "type": "go",
       "request": "launch",
       "mode": "auto",
-      "program": "./api"
+      "program": "./server/mock"
+    },
+    {
+      "name": "Start tobuy-app api server",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "./server/api"
     }
   ]
 }
