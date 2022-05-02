@@ -5,18 +5,27 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Start mock api server",
-      "type": "go",
+      "name": "Start Next.js",
+      "type": "pwa-node",
       "request": "launch",
-      "mode": "auto",
-      "program": "./server/mock"
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["dev"],
+      "cwd": "${workspaceFolder}//front"
     },
     {
-      "name": "Start tobuy-app api server",
+      "name": "Start Golang Server",
       "type": "go",
       "request": "launch",
       "mode": "auto",
-      "program": "./api/server"
+      "program": "${workspaceFolder}//api/server"
+    },
+    {
+      "name": "Start Mock Server",
+      "type": "pwa-node",
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["start"],
+      "cwd": "${workspaceFolder}//api/mock"
     }
   ]
 }
