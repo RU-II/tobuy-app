@@ -1,0 +1,20 @@
+{
+  "name": "tobuy-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/RU-II/tobuy-app.git",
+  "author": "RU-II",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.1",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  }
+}
