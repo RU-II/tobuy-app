@@ -4,8 +4,7 @@
   "description": "This is the ToBuyApp server.",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js"
+    "start": "node index.js"
   },
   "keywords": [
     "swagger"
