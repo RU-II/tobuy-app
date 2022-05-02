@@ -3,13 +3,13 @@ package main
 import (
 	"fmt"
 	"time"
-	"tobuy-app/server/api/controllers"
-	"tobuy-app/server/api/db"
-	"tobuy-app/server/api/repositories"
-	"tobuy-app/server/api/router"
-	"tobuy-app/server/api/services"
-	"tobuy-app/server/api/utils"
-	"tobuy-app/server/api/utils/logic"
+	"tobuy-app/api/server/controllers"
+	"tobuy-app/api/server/db"
+	"tobuy-app/api/server/repositories"
+	"tobuy-app/api/server/router"
+	"tobuy-app/api/server/services"
+	"tobuy-app/api/server/utils"
+	"tobuy-app/api/server/utils/logic"
 
 	"github.com/rs/zerolog/log"
 )

@@ -3,7 +3,7 @@ package utils
 import (
 	"io"
 	"os"
-	"tobuy-app/server/api/env"
+	"tobuy-app/api/server/env"
 
 	"github.com/rs/zerolog"
 )

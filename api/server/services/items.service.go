@@ -5,9 +5,9 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
-	"tobuy-app/server/api/models"
-	"tobuy-app/server/api/repositories"
-	"tobuy-app/server/api/utils/logic"
+	"tobuy-app/api/server/models"
+	"tobuy-app/api/server/repositories"
+	"tobuy-app/api/server/utils/logic"
 
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"

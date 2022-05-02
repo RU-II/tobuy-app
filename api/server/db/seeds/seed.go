@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"tobuy-app/server/api/db"
-	"tobuy-app/server/api/models"
+	"tobuy-app/api/server/db"
+	"tobuy-app/api/server/models"
 
 	"strconv"
 

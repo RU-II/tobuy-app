@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
 
-	_ "tobuy-app/server/api/docs"
+	_ "tobuy-app/api/server/docs"
 
 	httpSwagger "github.com/swaggo/http-swagger"
 )

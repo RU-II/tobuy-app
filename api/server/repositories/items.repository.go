@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"tobuy-app/server/api/models"
+	"tobuy-app/api/server/models"
 
 	"gorm.io/gorm"
 )

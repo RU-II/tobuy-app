@@ -1,4 +1,4 @@
-module tobuy-app/server/api
+module tobuy-app/api/server
 
 go 1.18
 

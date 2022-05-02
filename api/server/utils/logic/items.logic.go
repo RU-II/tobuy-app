@@ -1,6 +1,6 @@
 package logic
 
-import "tobuy-app/server/api/models"
+import "tobuy-app/api/server/models"
 
 type ItemsLogic interface {
 	CreateAllItemsResponse(items *[]models.Item) []models.BaseItemResponse

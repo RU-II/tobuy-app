@@ -3,8 +3,8 @@ package db
 import (
 	"fmt"
 	"time"
-	"tobuy-app/server/api/env"
-	"tobuy-app/server/api/utils"
+	"tobuy-app/api/server/env"
+	"tobuy-app/api/server/utils"
 
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/log/zerologadapter"

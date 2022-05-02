@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	"tobuy-app/server/api/services"
+	"tobuy-app/api/server/services"
 )
 
 type ItemsController interface {

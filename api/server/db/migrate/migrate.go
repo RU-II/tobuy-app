@@ -1,8 +1,8 @@
 package main
 
 import (
-	"tobuy-app/server/api/db"
-	"tobuy-app/server/api/models"
+	"tobuy-app/api/server/db"
+	"tobuy-app/api/server/models"
 
 	"gorm.io/gorm"
 )

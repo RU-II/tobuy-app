@@ -1,7 +1,7 @@
 package router
 
 import (
-	"tobuy-app/server/api/controllers"
+	"tobuy-app/api/server/controllers"
 
 	"github.com/gorilla/mux"
 )
