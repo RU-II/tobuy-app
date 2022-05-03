@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  models.AllItemsResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/models.BaseItemResponse'
+        type: array
+    type: object
   models.BaseItemResponse:
     properties:
       category_id:
@@ -79,7 +86,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: ""
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AllItemsResponse'
         "404":
           description: ""
         "500":
@@ -102,7 +111,9 @@ paths:
       - application/json
       responses:
         "201":
-          description: ""
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
         "400":
           description: ""
         "500":
@@ -133,11 +144,40 @@ paths:
       summary: Fetch item by id
       tags:
       - fetchItemBuyId
+  /items/{id}/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete user's item
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: ""
+        "500":
+          description: ""
+      summary: Delete item
+      tags:
+      - deleteItem
+  /items/{id}/update:
     post:
       consumes:
       - application/json
       description: Update user's item
       parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Update Item Create
         in: body
         name: requestBody
@@ -147,8 +187,10 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
-          description: ""
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
         "400":
           description: ""
         "500":
