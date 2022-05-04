@@ -33,7 +33,7 @@ func (itc *itemsController) ItemsPage(w http.ResponseWriter, r *http.Request) {
 // @Description  Fetch all items
 // @Tags         fetchAllItems
 // @Produce      json
-// @Success      200
+// @Success      200  {object}  models.AllItemsResponse
 // @Failure      404
 // @Failure      500
 // @Router       /items [get]
@@ -75,13 +75,20 @@ func (ic *itemsController) FetchItemById(w http.ResponseWriter, r *http.Request)
 // @Tags         createItem
 // @Accept       json
 // @Produce      json
-// @Param        requestBody  body  models.MutationItemRequest  true  "Create Item Request"
-// @Success      201
+// @Param        requestBody  body      models.MutationItemRequest  true  "Create Item Request"
+// @Success      201          {object}  models.ItemResponse
 // @Failure      400
 // @Failure      500
 // @Router       /items [post]
 func (ic *itemsController) CreateItem(w http.ResponseWriter, r *http.Request) {
+	userId := 1
 
+	itemResponse, err := ic.is.CreateItem(w, r, userId)
+	if err != nil {
+		return
+	}
+
+	ic.is.SendCreateItemResponse(w, &itemResponse)
 }
 
 // DeleteItem godoc
@@ -90,13 +97,20 @@ func (ic *itemsController) CreateItem(w http.ResponseWriter, r *http.Request) {
 // @Tags         deleteItem
 // @Accept       json
 // @Produce      json
-// @Param        id  path  int  true  "Item ID"
+// @Param        id           path      int                         true  "Item ID"
 // @Success      204
 // @Failure      400
 // @Failure      500
-// @Router       /items/{id} [post]
+// @Router       /items/{id}/delete [post]
 func (ic *itemsController) DeleteItem(w http.ResponseWriter, r *http.Request) {
+	// TODO ユーザーID取得
+	userId := 1
 
+	if err := ic.is.DeleteItem(w, r, userId); err != nil {
+		return
+	}
+
+	ic.is.SendDeleteItemResponse(w)
 }
 
 // UpdateItem godoc
@@ -105,11 +119,20 @@ func (ic *itemsController) DeleteItem(w http.ResponseWriter, r *http.Request) {
 // @Tags         updateItem
 // @Accept       json
 // @Produce      json
-// @Param        requestBody  body  models.MutationItemRequest  true  "Update Item Create"
-// @Success      204
+// @Param        id  path  int  true  "Item ID"
+// @Param        requestBody  body      models.MutationItemRequest  true  "Update Item Create"
+// @Success      200          {object}  models.ItemResponse
 // @Failure      400
 // @Failure      500
-// @Router       /items/{id} [post]]
+// @Router       /items/{id}/update [post]]
 func (ic *itemsController) UpdateItem(w http.ResponseWriter, r *http.Request) {
+	// TODO ユーザーID取得
+	userId := 1
 
+	itemResponse, err := ic.is.UpdateItem(w, r, userId)
+	if err != nil {
+		return
+	}
+
+	ic.is.SendItemResponse(w, &itemResponse)
 }

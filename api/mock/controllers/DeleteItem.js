@@ -1,10 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var UpdateItem = require('../service/UpdateItemService');
+var DeleteItem = require('../service/DeleteItemService');
 
-module.exports.itemsIdUpdatePOST = function itemsIdUpdatePOST (req, res, next, body, id) {
-  UpdateItem.itemsIdUpdatePOST(body, id)
+module.exports.itemsIdDeletePOST = function itemsIdDeletePOST (req, res, next, id) {
+  DeleteItem.itemsIdDeletePOST(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

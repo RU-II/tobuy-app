@@ -37,7 +37,10 @@ const docTemplate = `{
                 "summary": "Fetch all items",
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AllItemsResponse"
+                        }
                     },
                     "404": {
                         "description": ""
@@ -72,7 +75,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": ""
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.ItemResponse"
+                        }
                     },
                     "400": {
                         "description": ""
@@ -116,9 +122,11 @@ const docTemplate = `{
                         "description": ""
                     }
                 }
-            },
+            }
+        },
+        "/items/{id}/delete": {
             "post": {
-                "description": "Update user's item",
+                "description": "Delete user's item",
                 "consumes": [
                     "application/json"
                 ],
@@ -126,18 +134,16 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "updateItem"
+                    "deleteItem"
                 ],
-                "summary": "Update item",
+                "summary": "Delete item",
                 "parameters": [
                     {
-                        "description": "Update Item Create",
-                        "name": "requestBody",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.MutationItemRequest"
-                        }
+                        "type": "integer",
+                        "description": "Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -152,9 +158,67 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/items/{id}/update": {
+            "post": {
+                "description": "Update user's item",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "updateItem"
+                ],
+                "summary": "Update item",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Item Create",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.MutationItemRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ItemResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "models.AllItemsResponse": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.BaseItemResponse"
+                    }
+                }
+            }
+        },
         "models.BaseItemResponse": {
             "type": "object",
             "properties": {

@@ -23,8 +23,11 @@ paths:
       operationId: itemsGET
       responses:
         "200":
-          description: ""
-          content: {}
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.AllItemsResponse'
         "404":
           description: ""
           content: {}
@@ -47,8 +50,11 @@ paths:
         required: true
       responses:
         "201":
-          description: ""
-          content: {}
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ItemResponse'
         "400":
           description: ""
           content: {}
@@ -87,19 +93,22 @@ paths:
           description: ""
           content: {}
       x-swagger-router-controller: FetchItemBuyId
+  /items/{id}/delete:
     post:
       tags:
-      - updateItem
-      summary: Update item
-      description: Update user's item
-      operationId: itemsIdPOST
-      requestBody:
-        description: Update Item Create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/models.MutationItemRequest'
+      - deleteItem
+      summary: Delete item
+      description: Delete user's item
+      operationId: itemsIdDeletePOST
+      parameters:
+      - name: id
+        in: path
+        description: Item ID
         required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       responses:
         "204":
           description: ""
@@ -110,10 +119,76 @@ paths:
         "500":
           description: ""
           content: {}
+      x-swagger-router-controller: DeleteItem
+  /items/{id}/update:
+    post:
+      tags:
+      - updateItem
+      summary: Update item
+      description: Update user's item
+      operationId: itemsIdUpdatePOST
+      parameters:
+      - name: id
+        in: path
+        description: Item ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        description: Update Item Create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.MutationItemRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ItemResponse'
+        "400":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
       x-codegen-request-body-name: requestBody
       x-swagger-router-controller: UpdateItem
 components:
   schemas:
+    models.AllItemsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.BaseItemResponse'
+      example:
+        items:
+        - number: 1
+          category_id: 1
+          updated_at: 2022-05-01T17:23:17.494039+09:00
+          name: test item
+          created_at: 2022-05-01T17:23:17.494039+09:00
+          description: This is a test item
+          counter: 数
+          id: 1
+          deleted_at: ""
+          status: 0
+        - number: 1
+          category_id: 1
+          updated_at: 2022-05-01T17:23:17.494039+09:00
+          name: test item
+          created_at: 2022-05-01T17:23:17.494039+09:00
+          description: This is a test item
+          counter: 数
+          id: 1
+          deleted_at: ""
+          status: 0
     models.BaseItemResponse:
       type: object
       properties:
