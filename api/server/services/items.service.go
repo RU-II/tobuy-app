@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+
 	"tobuy-app/api/server/models"
 	"tobuy-app/api/server/repositories"
 	"tobuy-app/api/server/utils/logic"
@@ -34,12 +35,12 @@ type ItemsService interface {
 }
 
 type itemsService struct {
-	ir repositories.ItemsRepository
+	ir repositories.ItemRepository
 	il logic.ItemsLogic
 	rl logic.ResponseLogic
 }
 
-func NewItemsService(ir repositories.ItemsRepository, il logic.ItemsLogic, rl logic.ResponseLogic) ItemsService {
+func NewItemsService(ir repositories.ItemRepository, il logic.ItemsLogic, rl logic.ResponseLogic) ItemsService {
 	return &itemsService{ir, il, rl}
 }
 
@@ -184,7 +185,7 @@ func (is *itemsService) UpdateItem(w http.ResponseWriter, r *http.Request, userI
 	if err != nil {
 		statusCode := http.StatusInternalServerError
 		errMessage := "リクエストボディの読み取り処理でエラー発生"
-		log.Error().Err(err).Msg(errMessage)
+		log.Error().Err(err).Int("status_code", statusCode).Msg(errMessage)
 		is.rl.SendResponse(w, is.rl.CreateErrorStringResponse(errMessage), statusCode)
 		return models.BaseItemResponse{}, err
 	}
@@ -192,7 +193,7 @@ func (is *itemsService) UpdateItem(w http.ResponseWriter, r *http.Request, userI
 	if err := json.Unmarshal(resBody, &mutationItemRequest); err != nil {
 		statusCode := http.StatusInternalServerError
 		errMessage := "リクエストボディの構造体への変換処理でエラー発生"
-		log.Error().Err(err).Msg(errMessage)
+		log.Error().Err(err).Int("status_code", statusCode).Msg(errMessage)
 		is.rl.SendResponse(w, is.rl.CreateErrorStringResponse(errMessage), statusCode)
 		return models.BaseItemResponse{}, err
 	}
@@ -210,7 +211,7 @@ func (is *itemsService) UpdateItem(w http.ResponseWriter, r *http.Request, userI
 	if err := is.ir.UpdateItem(&updateItem, id, userId); err != nil {
 		statusCode := http.StatusInternalServerError
 		errMessage := "アイテムの更新に失敗しました。"
-		log.Error().Err(err).Msg(errMessage)
+		log.Error().Err(err).Int("status_code", statusCode).Msg(errMessage)
 		is.rl.SendResponse(w, is.rl.CreateErrorStringResponse(errMessage), statusCode)
 		return models.BaseItemResponse{}, err
 	}

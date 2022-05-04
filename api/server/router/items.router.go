@@ -2,9 +2,10 @@ package router
 
 import (
 	"net/http"
-	"tobuy-app/api/server/controllers"
 
 	"github.com/gorilla/mux"
+
+	"tobuy-app/api/server/controllers"
 )
 
 type ItemsRouter interface {

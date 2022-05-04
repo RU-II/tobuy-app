@@ -7,6 +7,14 @@ definitions:
           $ref: '#/definitions/models.BaseItemResponse'
         type: array
     type: object
+  models.AuthResponse:
+    properties:
+      token:
+        example: ajiji1j98a
+        type: string
+      user:
+        $ref: '#/definitions/models.UserResponse'
+    type: object
   models.BaseItemResponse:
     properties:
       category_id:
@@ -65,6 +73,48 @@ definitions:
       status:
         example: 0
         type: integer
+    type: object
+  models.SignInRequest:
+    properties:
+      email:
+        example: test@example.com
+        type: string
+      password:
+        example: password
+        type: string
+    type: object
+  models.SignUpRequest:
+    properties:
+      email:
+        example: test@example.com
+        type: string
+      name:
+        example: test user
+        type: string
+      password:
+        example: password
+        type: string
+    type: object
+  models.UserResponse:
+    properties:
+      created_at:
+        example: "2022-05-01T17:23:17.494039+09:00"
+        type: string
+      deleted_at:
+        example: ""
+        type: string
+      email:
+        example: test@example.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: test user
+        type: string
+      updated_at:
+        example: "2022-05-01T17:23:17.494039+09:00"
+        type: string
     type: object
 info:
   contact:
@@ -198,6 +248,66 @@ paths:
       summary: Update item
       tags:
       - updateItem
+  /signin:
+    post:
+      consumes:
+      - application/json
+      description: SignIn
+      parameters:
+      - description: SignIn Request
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AuthResponse'
+        "400":
+          description: ""
+        "401":
+          description: ""
+        "404":
+          description: ""
+        "500":
+          description: ""
+      summary: SignIn
+      tags:
+      - signIn
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: SignUp
+      parameters:
+      - description: SignUp Request
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.AuthResponse'
+        "400":
+          description: ""
+        "401":
+          description: ""
+        "404":
+          description: ""
+        "500":
+          description: ""
+      summary: SignUp
+      tags:
+      - signUp
 securityDefinitions:
   ApiKeyAuth:
     in: header

@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type ItemsRepository interface {
+type ItemRepository interface {
 	GetAllItems(item *[]models.Item, userId int) error
 	GetItemById(item *models.Item, id int, userId int) error
 	GetLastItem(item *models.Item, userId int) error
@@ -19,7 +19,7 @@ type itemsRepository struct {
 	db *gorm.DB
 }
 
-func NewItemsRepository(db *gorm.DB) ItemsRepository {
+func NewItemRepository(db *gorm.DB) ItemRepository {
 	return &itemsRepository{db}
 }
 

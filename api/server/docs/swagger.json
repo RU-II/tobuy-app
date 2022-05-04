@@ -197,6 +197,98 @@
                     }
                 }
             }
+        },
+        "/signin": {
+            "post": {
+                "description": "SignIn",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "signIn"
+                ],
+                "summary": "SignIn",
+                "parameters": [
+                    {
+                        "description": "SignIn Request",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SignInRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AuthResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "description": "SignUp",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "signUp"
+                ],
+                "summary": "SignUp",
+                "parameters": [
+                    {
+                        "description": "SignUp Request",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SignUpRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.AuthResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -208,6 +300,18 @@
                     "items": {
                         "$ref": "#/definitions/models.BaseItemResponse"
                     }
+                }
+            }
+        },
+        "models.AuthResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "example": "ajiji1j98a"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.UserResponse"
                 }
             }
         },
@@ -290,6 +394,65 @@
                 "status": {
                     "type": "integer",
                     "example": 0
+                }
+            }
+        },
+        "models.SignInRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password"
+                }
+            }
+        },
+        "models.SignUpRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "test user"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password"
+                }
+            }
+        },
+        "models.UserResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2022-05-01T17:23:17.494039+09:00"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "example": ""
+                },
+                "email": {
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "test user"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2022-05-01T17:23:17.494039+09:00"
                 }
             }
         }
