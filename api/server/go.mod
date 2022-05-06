@@ -3,9 +3,13 @@ module tobuy-app/api/server
 go 1.18
 
 require (
+	github.com/auth0/go-jwt-middleware v1.0.1
+	github.com/form3tech-oss/jwt-go v3.2.5+incompatible
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/jackc/pgx/v4 v4.16.0
 	github.com/joho/godotenv v1.4.0
+	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.26.1
 	github.com/swaggo/http-swagger v1.2.7
 	github.com/swaggo/swag v1.8.1

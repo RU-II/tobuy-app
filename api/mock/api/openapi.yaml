@@ -158,6 +158,76 @@ paths:
           content: {}
       x-codegen-request-body-name: requestBody
       x-swagger-router-controller: UpdateItem
+  /signin:
+    post:
+      tags:
+      - signIn
+      summary: SignIn
+      description: SignIn
+      operationId: signinPOST
+      requestBody:
+        description: SignIn Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.SignInRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.AuthResponse'
+        "400":
+          description: ""
+          content: {}
+        "401":
+          description: ""
+          content: {}
+        "404":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      x-codegen-request-body-name: requestBody
+      x-swagger-router-controller: SignIn
+  /signup:
+    post:
+      tags:
+      - signUp
+      summary: SignUp
+      description: SignUp
+      operationId: signupPOST
+      requestBody:
+        description: SignUp Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.SignUpRequest'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.AuthResponse'
+        "400":
+          description: ""
+          content: {}
+        "401":
+          description: ""
+          content: {}
+        "404":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      x-codegen-request-body-name: requestBody
+      x-swagger-router-controller: SignUp
 components:
   schemas:
     models.AllItemsResponse:
@@ -189,6 +259,23 @@ components:
           id: 1
           deleted_at: ""
           status: 0
+    models.AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: ajiji1j98a
+        user:
+          $ref: '#/components/schemas/models.UserResponse'
+      example:
+        user:
+          updated_at: 2022-05-01T17:23:17.494039+09:00
+          name: test user
+          created_at: 2022-05-01T17:23:17.494039+09:00
+          id: 1
+          deleted_at: ""
+          email: test@example.com
+        token: ajiji1j98a
     models.BaseItemResponse:
       type: object
       properties:
@@ -271,6 +358,55 @@ components:
         status:
           type: integer
           example: 0
+    models.SignInRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@example.com
+        password:
+          type: string
+          example: password
+    models.SignUpRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@example.com
+        name:
+          type: string
+          example: test user
+        password:
+          type: string
+          example: password
+    models.UserResponse:
+      type: object
+      properties:
+        created_at:
+          type: string
+          example: 2022-05-01T17:23:17.494039+09:00
+        deleted_at:
+          type: string
+          example: ""
+        email:
+          type: string
+          example: test@example.com
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: test user
+        updated_at:
+          type: string
+          example: 2022-05-01T17:23:17.494039+09:00
+      example:
+        updated_at: 2022-05-01T17:23:17.494039+09:00
+        name: test user
+        created_at: 2022-05-01T17:23:17.494039+09:00
+        id: 1
+        deleted_at: ""
+        email: test@example.com
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

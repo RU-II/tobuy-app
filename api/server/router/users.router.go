@@ -1,9 +1,9 @@
 package router
 
 import (
-	"tobuy-app/api/server/controllers"
-
 	"github.com/gorilla/mux"
+
+	"tobuy-app/api/server/controllers"
 )
 
 type UsersRouter interface {

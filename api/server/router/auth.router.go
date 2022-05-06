@@ -1,9 +1,11 @@
 package router
 
 import (
-	"tobuy-app/api/server/controllers"
+	"net/http"
 
 	"github.com/gorilla/mux"
+
+	"tobuy-app/api/server/controllers"
 )
 
 type AuthRouter interface {
@@ -11,13 +13,14 @@ type AuthRouter interface {
 }
 
 type authRouter struct {
-	auc controllers.AuthController
+	ac controllers.AuthController
 }
 
-func NewAuthRouter(auc controllers.AuthController) AuthRouter {
-	return &authRouter{auc}
+func NewAuthRouter(ac controllers.AuthController) AuthRouter {
+	return &authRouter{ac}
 }
 
-func (aur *authRouter) SetAuthRouting(router *mux.Router) {
-	router.HandleFunc(basePath+"/auth", aur.auc.AuthPage).Methods("GET")
+func (ar *authRouter) SetAuthRouting(router *mux.Router) {
+	router.HandleFunc(basePath+"/signin", ar.ac.SignIn).Methods(http.MethodPost)
+	router.HandleFunc(basePath+"/signup", ar.ac.SignUp).Methods(http.MethodPost)
 }

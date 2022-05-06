@@ -1,5 +1,15 @@
 {
+  "go.useLanguageServer": true,
   "go.toolsEnvVars": { "GO111MODULE": "on" },
-  "gopls": { "experimentalWorkspaceModule": true },
+  // https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+  "gopls": {
+    "local": "tobuy-app",
+    "experimentalWorkspaceModule": true
+  },
+  // 上記のgoplsのlocal設定のみで良い
+  // "go.formatTool": "goimports",
+  // "go.formatFlags": ["-local", "tobuy-app/api/server/controllers"],
+
+  // workspaceスペルミス除外リスト
   "cSpell.words": ["tobuy", "zlogger"]
 }

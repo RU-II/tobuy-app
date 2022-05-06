@@ -10,6 +10,7 @@ format:
 .PHONY: init
 init:
 	swag init
+	swagger-codegen generate -i ./docs/swagger.json -l nodejs-server -o ../mock
 
 .PHONY: run
 run: format init

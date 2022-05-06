@@ -3,6 +3,10 @@ package main
 import (
 	"fmt"
 	"time"
+
+	"github.com/joho/godotenv"
+	"github.com/rs/zerolog/log"
+
 	"tobuy-app/api/server/controllers"
 	"tobuy-app/api/server/db"
 	"tobuy-app/api/server/repositories"
@@ -10,8 +14,6 @@ import (
 	"tobuy-app/api/server/services"
 	"tobuy-app/api/server/utils"
 	"tobuy-app/api/server/utils/logic"
-
-	"github.com/rs/zerolog/log"
 )
 
 // @title           Swagger ToBuyApp API
@@ -58,27 +60,31 @@ func main() {
 	// log設定
 	log.Logger = *utils.CreateLogger(fmt.Sprintf("./logs/access.%s.log", time.Now().Local().Format("20060102")))
 
+	// 環境変数設定
+	if err := godotenv.Load(".env"); err != nil {
+		log.Error().Err(err).Msg("環境変数を読み込めませんでした。")
+	}
+
 	// DB接続
 	db := db.Init()
 
 	// logic層
-	// authLogic :=  logic.NewAuthLogic()
-	// userLogic :=  logic.NewUserLogic()
+	authLogic := logic.NewAuthLogic()
 	itemsLogic := logic.NewItemsLogic()
 	responseLogic := logic.NewResponseLogic()
-	// jwtLogic := logic.NewJWTLogic()
+	jwtLogic := logic.NewJWTLogic()
 
 	// repository層
-	// userRepo := repositories.NewUserRepository(db)
-	itemsRepo := repositories.NewItemsRepository(db)
+	userRepo := repositories.NewUserRepository(db)
+	itemsRepo := repositories.NewItemRepository(db)
 
 	// service層
-	// authService := services.NewAuthService(userRepo, authLogic, userLogic, responseLogic, jwtLogic, authValidate)
+	authService := services.NewAuthService(userRepo, authLogic, responseLogic, jwtLogic)
 	itemsService := services.NewItemsService(itemsRepo, itemsLogic, responseLogic)
 
 	// controller層
 	appController := controllers.NewAppController()
-	authController := controllers.NewAuthController()
+	authController := controllers.NewAuthController(authService)
 	groupsController := controllers.NewGroupsController()
 	itemsController := controllers.NewItemsController(itemsService)
 	usersController := controllers.NewUsersController()
@@ -93,5 +99,5 @@ func main() {
 	mainRouter := router.NewMainRouter(appRouter, authRouter, groupsRouter, itemsRouter, usersRouter)
 
 	// API起動
-	log.Fatal().Err(mainRouter.StartWebServer()).Msg("Startup failed")
+	log.Fatal().Err(mainRouter.StartWebServer()).Msg("Fail to start ToBuyApp server")
 }
