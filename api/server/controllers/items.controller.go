@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+
 	"tobuy-app/api/server/services"
 )
 
@@ -17,10 +18,11 @@ type ItemsController interface {
 
 type itemsController struct {
 	is services.ItemsService
+	as services.AuthService
 }
 
-func NewItemsController(is services.ItemsService) ItemsController {
-	return &itemsController{is}
+func NewItemsController(is services.ItemsService, as services.AuthService) ItemsController {
+	return &itemsController{is, as}
 }
 
 func (itc *itemsController) ItemsPage(w http.ResponseWriter, r *http.Request) {
@@ -33,12 +35,16 @@ func (itc *itemsController) ItemsPage(w http.ResponseWriter, r *http.Request) {
 // @Description  Fetch all items
 // @Tags         fetchAllItems
 // @Produce      json
+// @Security     JWT
 // @Success      200  {object}  models.AllItemsResponse
 // @Failure      404
 // @Failure      500
 // @Router       /items [get]
 func (ic *itemsController) FetchAllItems(w http.ResponseWriter, r *http.Request) {
-	userId := 1
+	userId, err := ic.as.GetUserIdFromToken(w, r)
+	if err != nil {
+		return
+	}
 
 	allItems, err := ic.is.GetAllItems(w, userId)
 	if err != nil {
@@ -53,13 +59,17 @@ func (ic *itemsController) FetchAllItems(w http.ResponseWriter, r *http.Request)
 // @Description  Fetch user's item by id
 // @Tags         fetchItemBuyId
 // @Produce      json
+// @Security     JWT
 // @Param        id   path      int  true  "Item ID"
 // @Success      200  {object}  models.ItemResponse
 // @Failure      404
 // @Failure      500
 // @Router       /items/{id} [get]
 func (ic *itemsController) FetchItemById(w http.ResponseWriter, r *http.Request) {
-	userId := 1
+	userId, err := ic.as.GetUserIdFromToken(w, r)
+	if err != nil {
+		return
+	}
 
 	item, err := ic.is.GetItemById(w, r, userId)
 	if err != nil {
@@ -75,13 +85,17 @@ func (ic *itemsController) FetchItemById(w http.ResponseWriter, r *http.Request)
 // @Tags         createItem
 // @Accept       json
 // @Produce      json
+// @Security     JWT
 // @Param        requestBody  body      models.MutationItemRequest  true  "Create Item Request"
 // @Success      201          {object}  models.ItemResponse
 // @Failure      400
 // @Failure      500
 // @Router       /items [post]
 func (ic *itemsController) CreateItem(w http.ResponseWriter, r *http.Request) {
-	userId := 1
+	userId, err := ic.as.GetUserIdFromToken(w, r)
+	if err != nil {
+		return
+	}
 
 	itemResponse, err := ic.is.CreateItem(w, r, userId)
 	if err != nil {
@@ -97,14 +111,17 @@ func (ic *itemsController) CreateItem(w http.ResponseWriter, r *http.Request) {
 // @Tags         deleteItem
 // @Accept       json
 // @Produce      json
-// @Param        id           path      int                         true  "Item ID"
+// @Security     JWT
+// @Param        id  path  int  true  "Item ID"
 // @Success      204
 // @Failure      400
 // @Failure      500
 // @Router       /items/{id}/delete [post]
 func (ic *itemsController) DeleteItem(w http.ResponseWriter, r *http.Request) {
-	// TODO ユーザーID取得
-	userId := 1
+	userId, err := ic.as.GetUserIdFromToken(w, r)
+	if err != nil {
+		return
+	}
 
 	if err := ic.is.DeleteItem(w, r, userId); err != nil {
 		return
@@ -119,15 +136,18 @@ func (ic *itemsController) DeleteItem(w http.ResponseWriter, r *http.Request) {
 // @Tags         updateItem
 // @Accept       json
 // @Produce      json
-// @Param        id  path  int  true  "Item ID"
+// @Security     JWT
+// @Param        id           path      int                         true  "Item ID"
 // @Param        requestBody  body      models.MutationItemRequest  true  "Update Item Create"
 // @Success      200          {object}  models.ItemResponse
 // @Failure      400
 // @Failure      500
 // @Router       /items/{id}/update [post]]
 func (ic *itemsController) UpdateItem(w http.ResponseWriter, r *http.Request) {
-	// TODO ユーザーID取得
-	userId := 1
+	userId, err := ic.as.GetUserIdFromToken(w, r)
+	if err != nil {
+		return
+	}
 
 	itemResponse, err := ic.is.UpdateItem(w, r, userId)
 	if err != nil {

@@ -30,32 +30,9 @@ import (
 
 // @BasePath  /api/v1
 
-// @securityDefinitions.basic  BasicAuth
-
-// @securityDefinitions.apikey  ApiKeyAuth
+// @securityDefinitions.apiKey  JWT
 // @in                          header
 // @name                        Authorization
-
-// @securitydefinitions.oauth2.application  OAuth2Application
-// @tokenUrl                                https://example.com/oauth/token
-// @scope.write                             Grants write access
-// @scope.admin                             Grants read and write access to administrative information
-
-// @securitydefinitions.oauth2.implicit  OAuth2Implicit
-// @authorizationurl                     https://example.com/oauth/authorize
-// @scope.write                          Grants write access
-// @scope.admin                          Grants read and write access to administrative information
-
-// @securitydefinitions.oauth2.password  OAuth2Password
-// @tokenUrl                             https://example.com/oauth/token
-// @scope.read                           Grants read access
-// @scope.write                          Grants write access
-// @scope.admin                          Grants read and write access to administrative information
-
-// @securitydefinitions.oauth2.accessCode  OAuth2AccessCode
-// @tokenUrl                               https://example.com/oauth/token
-// @authorizationurl                       https://example.com/oauth/authorize
-// @scope.admin                            Grants read and write access to administrative information
 func main() {
 	// log設定
 	log.Logger = *utils.CreateLogger(fmt.Sprintf("./logs/access.%s.log", time.Now().Local().Format("20060102")))
@@ -86,7 +63,7 @@ func main() {
 	appController := controllers.NewAppController()
 	authController := controllers.NewAuthController(authService)
 	groupsController := controllers.NewGroupsController()
-	itemsController := controllers.NewItemsController(itemsService)
+	itemsController := controllers.NewItemsController(itemsService, authService)
 	usersController := controllers.NewUsersController()
 
 	// router設定

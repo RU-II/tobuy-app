@@ -28,19 +28,29 @@ func (al *authLogic) GetUserIdFromToken(r *http.Request) (int, error) {
 		return 0, errors.New("not token")
 	}
 
-	extractToken := strings.Split(clientToken, "Bearer ")
-	secretKey := os.Getenv("JWT_KEY")
+	extractedToken := strings.Split(clientToken, "Bearer ")
+	secretKey := os.Getenv("JWT_SECRET")
 
-	if extractToken[1] == "" {
-		return 0, errors.Errorf("トークンが空文字です。")
+	var parseToken string
+	// Bearerがなかった場合の対処 (OpenAPI Ver.2)
+	if len(extractedToken) == 1 {
+		parseToken = extractedToken[0]
+	} else {
+		parseToken = extractedToken[1]
+		if parseToken == "" {
+			return 0, errors.Errorf("トークンが空文字です。")
+		}
 	}
 
-	token, err := jwt.Parse(extractToken[1], func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.Errorf("トークンをjwtにparseできません。")
-		}
-		return []byte(secretKey), nil
-	})
+	token, err := jwt.Parse(
+		parseToken,
+		func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, errors.Errorf("トークンをjwtにparseできません。")
+			}
+			return []byte(secretKey), nil
+		},
+	)
 	if err != nil {
 		return 0, err
 	}
