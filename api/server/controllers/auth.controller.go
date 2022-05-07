@@ -6,17 +6,17 @@ import (
 	"tobuy-app/api/server/services"
 )
 
-type AuthController interface {
+type IAuthController interface {
 	SignIn(w http.ResponseWriter, r *http.Request)
 	SignUp(w http.ResponseWriter, r *http.Request)
 }
 
-type authController struct {
-	as services.AuthService
+type AuthController struct {
+	as services.IAuthService
 }
 
-func NewAuthController(as services.AuthService) AuthController {
-	return &authController{as}
+func NewAuthController(as services.IAuthService) *AuthController {
+	return &AuthController{as}
 }
 
 // SignIn godoc
@@ -32,7 +32,7 @@ func NewAuthController(as services.AuthService) AuthController {
 // @Failure      404
 // @Failure      500
 // @Router       /signin [post]
-func (ac *authController) SignIn(w http.ResponseWriter, r *http.Request) {
+func (ac *AuthController) SignIn(w http.ResponseWriter, r *http.Request) {
 	user, err := ac.as.SignIn(w, r)
 	if err != nil {
 		return
@@ -54,7 +54,7 @@ func (ac *authController) SignIn(w http.ResponseWriter, r *http.Request) {
 // @Failure      404
 // @Failure      500
 // @Router       /signup [post]
-func (ac *authController) SignUp(w http.ResponseWriter, r *http.Request) {
+func (ac *AuthController) SignUp(w http.ResponseWriter, r *http.Request) {
 	createdUser, err := ac.as.SignUp(w, r)
 	if err != nil {
 		return

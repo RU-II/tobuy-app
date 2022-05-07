@@ -12,20 +12,20 @@ import (
 	"tobuy-app/api/server/models"
 )
 
-type JWTLogic interface {
+type IJWTLogic interface {
 	CreateJwtToken(user *models.User) (string, error)
 }
 
-type jwtLogic struct{}
+type JWTLogic struct{}
 
-func NewJWTLogic() JWTLogic {
-	return &jwtLogic{}
+func NewJWTLogic() *JWTLogic {
+	return &JWTLogic{}
 }
 
 /*
 jwtトークンの新規作成
 */
-func (jl *jwtLogic) CreateJwtToken(user *models.User) (string, error) {
+func (jl *JWTLogic) CreateJwtToken(user *models.User) (string, error) {
 	// headerのセット
 	token := jwt.New(jwt.SigningMethodHS256)
 	// claimsのセット
@@ -61,7 +61,7 @@ func (jl *jwtLogic) CreateJwtToken(user *models.User) (string, error) {
 /*
 jwt認証のミドルウェア
 */
-var JwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
+var JWTMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
 	ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
 		return []byte(os.Getenv("JWT_KEY")), nil
 	},

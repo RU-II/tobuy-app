@@ -5,23 +5,23 @@ import (
 	"net/http"
 )
 
-type ResponseLogic interface {
+type IResponseLogic interface {
 	SendResponse(w http.ResponseWriter, response []byte, code int)
 	SendNotBodyResponse(w http.ResponseWriter)
 	CreateErrorResponse(err error) []byte
 	CreateErrorStringResponse(errMessage string) []byte
 }
 
-type responseLogic struct{}
+type ResponseLogic struct{}
 
-func NewResponseLogic() ResponseLogic {
-	return &responseLogic{}
+func NewResponseLogic() *ResponseLogic {
+	return &ResponseLogic{}
 }
 
 /*
 APIレスポンス送信処理
 */
-func (rl *responseLogic) SendResponse(w http.ResponseWriter, response []byte, code int) {
+func (rl *ResponseLogic) SendResponse(w http.ResponseWriter, response []byte, code int) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(code)
 	w.Write(response)
@@ -30,7 +30,7 @@ func (rl *responseLogic) SendResponse(w http.ResponseWriter, response []byte, co
 /*
 APIレスポンス送信処理 (レスポンスBodyなし)
 */
-func (rl *responseLogic) SendNotBodyResponse(w http.ResponseWriter) {
+func (rl *ResponseLogic) SendNotBodyResponse(w http.ResponseWriter) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(http.StatusNoContent)
 }
@@ -38,7 +38,7 @@ func (rl *responseLogic) SendNotBodyResponse(w http.ResponseWriter) {
 /*
 エラーレスポンス作成
 */
-func (rl *responseLogic) CreateErrorResponse(err error) []byte {
+func (rl *ResponseLogic) CreateErrorResponse(err error) []byte {
 	response := map[string]interface{}{
 		"error": err,
 	}
@@ -50,7 +50,7 @@ func (rl *responseLogic) CreateErrorResponse(err error) []byte {
 /*
 エラーレスポンス作成 (エラーメッセージはstring)
 */
-func (rl *responseLogic) CreateErrorStringResponse(errMessage string) []byte {
+func (rl *ResponseLogic) CreateErrorStringResponse(errMessage string) []byte {
 	response := map[string]interface{}{
 		"error": errMessage,
 	}

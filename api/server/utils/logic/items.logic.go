@@ -2,18 +2,18 @@ package logic
 
 import "tobuy-app/api/server/models"
 
-type ItemsLogic interface {
+type IItemsLogic interface {
 	CreateAllItemsResponse(items *[]models.Item) []models.BaseItemResponse
 	CreateItemResponse(item *models.Item) models.BaseItemResponse
 }
 
-type itemsLogic struct{}
+type ItemsLogic struct{}
 
-func NewItemsLogic() ItemsLogic {
-	return &itemsLogic{}
+func NewItemsLogic() *ItemsLogic {
+	return &ItemsLogic{}
 }
 
-func (il *itemsLogic) CreateAllItemsResponse(items *[]models.Item) []models.BaseItemResponse {
+func (il *ItemsLogic) CreateAllItemsResponse(items *[]models.Item) []models.BaseItemResponse {
 	var responseItems []models.BaseItemResponse
 	for _, item := range *items {
 		var newItem models.BaseItemResponse
@@ -34,7 +34,7 @@ func (il *itemsLogic) CreateAllItemsResponse(items *[]models.Item) []models.Base
 	return responseItems
 }
 
-func (il *itemsLogic) CreateItemResponse(item *models.Item) models.BaseItemResponse {
+func (il *ItemsLogic) CreateItemResponse(item *models.Item) models.BaseItemResponse {
 	var responseItem models.BaseItemResponse
 	responseItem.BaseModel.ID = item.BaseModel.ID
 	responseItem.BaseModel.CreatedAt = item.BaseModel.CreatedAt

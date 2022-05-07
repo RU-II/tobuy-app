@@ -10,19 +10,19 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthLogic interface {
+type IAuthLogic interface {
 	GetUserIdFromToken(r *http.Request) (int, error)
 	CreateHashPassword(password string) []byte
 }
 
-type authLogic struct {
+type AuthLogic struct {
 }
 
-func NewAuthLogic() AuthLogic {
-	return &authLogic{}
+func NewAuthLogic() *AuthLogic {
+	return &AuthLogic{}
 }
 
-func (al *authLogic) GetUserIdFromToken(r *http.Request) (int, error) {
+func (al *AuthLogic) GetUserIdFromToken(r *http.Request) (int, error) {
 	clientToken := r.Header.Get("Authorization")
 	if clientToken == "" {
 		return 0, errors.New("not token")
@@ -58,7 +58,7 @@ func (al *authLogic) GetUserIdFromToken(r *http.Request) (int, error) {
 	return int(userId), nil
 }
 
-func (al *authLogic) CreateHashPassword(password string) []byte {
+func (al *AuthLogic) CreateHashPassword(password string) []byte {
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return hashPassword
 }

@@ -5,17 +5,17 @@ import (
 	"net/http"
 )
 
-type AppController interface {
+type IAppController interface {
 	RootPage(w http.ResponseWriter, r *http.Request)
 }
 
-type appController struct{}
+type AppController struct{}
 
-func NewAppController() AppController {
-	return &appController{}
+func NewAppController() *AppController {
+	return &AppController{}
 }
 
-func (apc *appController) RootPage(w http.ResponseWriter, r *http.Request) {
+func (ac *AppController) RootPage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to tobuy-app server")
 	fmt.Println("Root endpoint is hooked!")
 }

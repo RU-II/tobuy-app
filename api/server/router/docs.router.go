@@ -5,17 +5,17 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-type DocsRouter interface {
+type IDocsRouter interface {
 	SetDocsRouting(router *mux.Router)
 }
 
-type docsRouter struct {
+type DocsRouter struct {
 }
 
-func NewDocsRouter() DocsRouter {
-	return &docsRouter{}
+func NewDocsRouter() *DocsRouter {
+	return &DocsRouter{}
 }
 
-func (dor *docsRouter) SetDocsRouting(router *mux.Router) {
+func (dr *DocsRouter) SetDocsRouting(router *mux.Router) {
 	router.PathPrefix(basePath + "/docs").Handler(httpSwagger.WrapHandler)
 }

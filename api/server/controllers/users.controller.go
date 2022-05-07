@@ -5,17 +5,17 @@ import (
 	"net/http"
 )
 
-type UsersController interface {
+type IUsersController interface {
 	UsersPage(w http.ResponseWriter, r *http.Request)
 }
 
-type usersController struct{}
+type UsersController struct{}
 
-func NewUsersController() UsersController {
-	return &usersController{}
+func NewUsersController() *UsersController {
+	return &UsersController{}
 }
 
-func (usc *usersController) UsersPage(w http.ResponseWriter, r *http.Request) {
+func (uc *UsersController) UsersPage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Users")
 	fmt.Println("Users endpoint is hooked!")
 }

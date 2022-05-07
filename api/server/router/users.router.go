@@ -6,18 +6,18 @@ import (
 	"tobuy-app/api/server/controllers"
 )
 
-type UsersRouter interface {
+type IUsersRouter interface {
 	SetUsersRouting(router *mux.Router)
 }
 
-type usersRouter struct {
-	usc controllers.UsersController
+type UsersRouter struct {
+	usc controllers.IUsersController
 }
 
-func NewUsersRouter(usc controllers.UsersController) UsersRouter {
-	return &usersRouter{usc}
+func NewUsersRouter(uc controllers.IUsersController) *UsersRouter {
+	return &UsersRouter{uc}
 }
 
-func (usr *usersRouter) SetUsersRouting(router *mux.Router) {
-	router.HandleFunc(basePath+"/users", usr.usc.UsersPage).Methods("GET")
+func (ur *UsersRouter) SetUsersRouting(router *mux.Router) {
+	router.HandleFunc(basePath+"/users", ur.usc.UsersPage).Methods("GET")
 }

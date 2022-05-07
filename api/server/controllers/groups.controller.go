@@ -5,17 +5,17 @@ import (
 	"net/http"
 )
 
-type GroupsController interface {
+type IGroupsController interface {
 	GroupsPage(w http.ResponseWriter, r *http.Request)
 }
 
-type groupsController struct{}
+type GroupsController struct{}
 
-func NewGroupsController() GroupsController {
-	return &groupsController{}
+func NewGroupsController() *GroupsController {
+	return &GroupsController{}
 }
 
-func (grc *groupsController) GroupsPage(w http.ResponseWriter, r *http.Request) {
+func (gc *GroupsController) GroupsPage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Groups")
 	fmt.Println("Groups endpoint is hooked!")
 }

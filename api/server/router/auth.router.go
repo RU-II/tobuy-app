@@ -8,19 +8,19 @@ import (
 	"tobuy-app/api/server/controllers"
 )
 
-type AuthRouter interface {
+type IAuthRouter interface {
 	SetAuthRouting(router *mux.Router)
 }
 
-type authRouter struct {
-	ac controllers.AuthController
+type AuthRouter struct {
+	ac controllers.IAuthController
 }
 
-func NewAuthRouter(ac controllers.AuthController) AuthRouter {
-	return &authRouter{ac}
+func NewAuthRouter(ac controllers.IAuthController) *AuthRouter {
+	return &AuthRouter{ac}
 }
 
-func (ar *authRouter) SetAuthRouting(router *mux.Router) {
+func (ar *AuthRouter) SetAuthRouting(router *mux.Router) {
 	router.HandleFunc(basePath+"/signin", ar.ac.SignIn).Methods(http.MethodPost)
 	router.HandleFunc(basePath+"/signup", ar.ac.SignUp).Methods(http.MethodPost)
 }

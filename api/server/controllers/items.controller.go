@@ -3,10 +3,11 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+
 	"tobuy-app/api/server/services"
 )
 
-type ItemsController interface {
+type IItemsController interface {
 	ItemsPage(w http.ResponseWriter, r *http.Request)
 	FetchAllItems(w http.ResponseWriter, r *http.Request)
 	FetchItemById(w http.ResponseWriter, r *http.Request)
@@ -15,15 +16,15 @@ type ItemsController interface {
 	UpdateItem(w http.ResponseWriter, r *http.Request)
 }
 
-type itemsController struct {
-	is services.ItemsService
+type ItemsController struct {
+	is services.IItemsService
 }
 
-func NewItemsController(is services.ItemsService) ItemsController {
-	return &itemsController{is}
+func NewItemsController(is services.IItemsService) *ItemsController {
+	return &ItemsController{is}
 }
 
-func (itc *itemsController) ItemsPage(w http.ResponseWriter, r *http.Request) {
+func (ic *ItemsController) ItemsPage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Items")
 	fmt.Println("Items endpoint is hooked!")
 }
@@ -37,7 +38,7 @@ func (itc *itemsController) ItemsPage(w http.ResponseWriter, r *http.Request) {
 // @Failure      404
 // @Failure      500
 // @Router       /items [get]
-func (ic *itemsController) FetchAllItems(w http.ResponseWriter, r *http.Request) {
+func (ic *ItemsController) FetchAllItems(w http.ResponseWriter, r *http.Request) {
 	userId := 1
 
 	allItems, err := ic.is.GetAllItems(w, userId)
@@ -58,7 +59,7 @@ func (ic *itemsController) FetchAllItems(w http.ResponseWriter, r *http.Request)
 // @Failure      404
 // @Failure      500
 // @Router       /items/{id} [get]
-func (ic *itemsController) FetchItemById(w http.ResponseWriter, r *http.Request) {
+func (ic *ItemsController) FetchItemById(w http.ResponseWriter, r *http.Request) {
 	userId := 1
 
 	item, err := ic.is.GetItemById(w, r, userId)
@@ -80,7 +81,7 @@ func (ic *itemsController) FetchItemById(w http.ResponseWriter, r *http.Request)
 // @Failure      400
 // @Failure      500
 // @Router       /items [post]
-func (ic *itemsController) CreateItem(w http.ResponseWriter, r *http.Request) {
+func (ic *ItemsController) CreateItem(w http.ResponseWriter, r *http.Request) {
 	userId := 1
 
 	itemResponse, err := ic.is.CreateItem(w, r, userId)
@@ -102,7 +103,7 @@ func (ic *itemsController) CreateItem(w http.ResponseWriter, r *http.Request) {
 // @Failure      400
 // @Failure      500
 // @Router       /items/{id}/delete [post]
-func (ic *itemsController) DeleteItem(w http.ResponseWriter, r *http.Request) {
+func (ic *ItemsController) DeleteItem(w http.ResponseWriter, r *http.Request) {
 	// TODO ユーザーID取得
 	userId := 1
 
@@ -125,7 +126,7 @@ func (ic *itemsController) DeleteItem(w http.ResponseWriter, r *http.Request) {
 // @Failure      400
 // @Failure      500
 // @Router       /items/{id}/update [post]]
-func (ic *itemsController) UpdateItem(w http.ResponseWriter, r *http.Request) {
+func (ic *ItemsController) UpdateItem(w http.ResponseWriter, r *http.Request) {
 	// TODO ユーザーID取得
 	userId := 1
 

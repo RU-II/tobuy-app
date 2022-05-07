@@ -8,19 +8,19 @@ import (
 	"tobuy-app/api/server/controllers"
 )
 
-type ItemsRouter interface {
+type IItemsRouter interface {
 	SetItemsRouting(router *mux.Router)
 }
 
-type itemsRouter struct {
-	ic controllers.ItemsController
+type ItemsRouter struct {
+	ic controllers.IItemsController
 }
 
-func NewItemsRouter(ic controllers.ItemsController) ItemsRouter {
-	return &itemsRouter{ic}
+func NewItemsRouter(ic controllers.IItemsController) *ItemsRouter {
+	return &ItemsRouter{ic}
 }
 
-func (ir *itemsRouter) SetItemsRouting(router *mux.Router) {
+func (ir *ItemsRouter) SetItemsRouting(router *mux.Router) {
 	// router.HandleFunc(basePath+"/items", ir.ic.ItemsPage).Methods("GET")
 	// FetchAllItems
 	router.HandleFunc(basePath+"/items", ir.ic.FetchAllItems).Methods(http.MethodGet)

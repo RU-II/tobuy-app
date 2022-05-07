@@ -15,24 +15,24 @@ const (
 	basePath = "/api/v1"
 )
 
-type MainRouter interface {
+type IMainRouter interface {
 	setupRouting() *mux.Router
 	StartWebServer() error
 }
 
-type mainRouter struct {
-	appR    AppRouter
-	authR   AuthRouter
-	groupsR GroupsRouter
-	itemsR  ItemsRouter
-	usersR  UsersRouter
+type MainRouter struct {
+	appR    IAppRouter
+	authR   IAuthRouter
+	groupsR IGroupsRouter
+	itemsR  IItemsRouter
+	usersR  IUsersRouter
 }
 
-func NewMainRouter(appR AppRouter, authR AuthRouter, groupsR GroupsRouter, itemsR ItemsRouter, usersR UsersRouter) MainRouter {
-	return &mainRouter{appR, authR, groupsR, itemsR, usersR}
+func NewMainRouter(appR IAppRouter, authR IAuthRouter, groupsR IGroupsRouter, itemsR IItemsRouter, usersR IUsersRouter) *MainRouter {
+	return &MainRouter{appR, authR, groupsR, itemsR, usersR}
 }
 
-func (mainRouter *mainRouter) setupRouting() *mux.Router {
+func (mainRouter *MainRouter) setupRouting() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
 	mainRouter.appR.SetAppRouting(router)
@@ -53,7 +53,7 @@ func (mainRouter *mainRouter) setupRouting() *mux.Router {
 	return router
 }
 
-func (mainRouter *mainRouter) StartWebServer() error {
+func (mainRouter *MainRouter) StartWebServer() error {
 	log.Info().Msg("Start ToBuyApp server")
 
 	return http.ListenAndServe(fmt.Sprintf(":%d", 8080), mainRouter.setupRouting())

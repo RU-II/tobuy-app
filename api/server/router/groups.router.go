@@ -6,18 +6,18 @@ import (
 	"tobuy-app/api/server/controllers"
 )
 
-type GroupsRouter interface {
+type IGroupsRouter interface {
 	SetGroupsRouting(router *mux.Router)
 }
 
-type groupsRouter struct {
-	grc controllers.GroupsController
+type GroupsRouter struct {
+	grc controllers.IGroupsController
 }
 
-func NewGroupsRouter(grc controllers.GroupsController) GroupsRouter {
-	return &groupsRouter{grc}
+func NewGroupsRouter(gc controllers.IGroupsController) *GroupsRouter {
+	return &GroupsRouter{gc}
 }
 
-func (grr *groupsRouter) SetGroupsRouting(router *mux.Router) {
-	router.HandleFunc(basePath+"/groups", grr.grc.GroupsPage).Methods("GET")
+func (gr *GroupsRouter) SetGroupsRouting(router *mux.Router) {
+	router.HandleFunc(basePath+"/groups", gr.grc.GroupsPage).Methods("GET")
 }

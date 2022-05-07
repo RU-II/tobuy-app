@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type ItemRepository interface {
+type IItemRepository interface {
 	GetAllItems(item *[]models.Item, userId int) error
 	GetItemById(item *models.Item, id int, userId int) error
 	GetLastItem(item *models.Item, userId int) error
@@ -15,18 +15,18 @@ type ItemRepository interface {
 	UpdateItem(item *models.Item, id int, userId int) error
 }
 
-type itemsRepository struct {
+type ItemRepository struct {
 	db *gorm.DB
 }
 
-func NewItemRepository(db *gorm.DB) ItemRepository {
-	return &itemsRepository{db}
+func NewItemRepository(db *gorm.DB) *ItemRepository {
+	return &ItemRepository{db}
 }
 
 /*
 Itemリストを取得
 */
-func (ir *itemsRepository) GetAllItems(items *[]models.Item, userId int) error {
+func (ir *ItemRepository) GetAllItems(items *[]models.Item, userId int) error {
 	if err := ir.db.Where("user_id=?", userId).Find(&items).Error; err != nil {
 		return err
 	}
@@ -34,7 +34,7 @@ func (ir *itemsRepository) GetAllItems(items *[]models.Item, userId int) error {
 	return nil
 }
 
-func (ir *itemsRepository) GetItemById(item *models.Item, id int, userId int) error {
+func (ir *ItemRepository) GetItemById(item *models.Item, id int, userId int) error {
 	if err := ir.db.Where("user_id=?", userId).First(&item, id).Error; err != nil {
 		return err
 	}
@@ -42,7 +42,7 @@ func (ir *itemsRepository) GetItemById(item *models.Item, id int, userId int) er
 	return nil
 }
 
-func (ir *itemsRepository) GetLastItem(item *models.Item, userId int) error {
+func (ir *ItemRepository) GetLastItem(item *models.Item, userId int) error {
 	if err := ir.db.Where("user_id=?", userId).Last(&item).Error; err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func (ir *itemsRepository) GetLastItem(item *models.Item, userId int) error {
 	return nil
 }
 
-func (ir *itemsRepository) CreateItem(item *models.Item) error {
+func (ir *ItemRepository) CreateItem(item *models.Item) error {
 	if err := ir.db.Create(&item).Error; err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func (ir *itemsRepository) CreateItem(item *models.Item) error {
 	return nil
 }
 
-func (ir *itemsRepository) DeleteItem(id int, userId int) error {
+func (ir *ItemRepository) DeleteItem(id int, userId int) error {
 	if err := ir.db.Where("id=? AND user_id=?", id, userId).Delete(&models.Item{}).Error; err != nil {
 		return err
 	}
@@ -77,7 +77,7 @@ func (ir *itemsRepository) DeleteItem(id int, userId int) error {
 	return nil
 }
 
-func (ir *itemsRepository) UpdateItem(item *models.Item, id int, userId int) error {
+func (ir *ItemRepository) UpdateItem(item *models.Item, id int, userId int) error {
 	if err := ir.db.Where("id=? AND user_id=?", id, userId).Updates(&item).Error; err != nil {
 		return err
 	}

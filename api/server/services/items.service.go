@@ -16,7 +16,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type ItemsService interface {
+type IItemsService interface {
 
 	// アイテムに関する処理
 
@@ -34,17 +34,17 @@ type ItemsService interface {
 	SendDeleteItemResponse(w http.ResponseWriter)
 }
 
-type itemsService struct {
-	ir repositories.ItemRepository
-	il logic.ItemsLogic
-	rl logic.ResponseLogic
+type ItemsService struct {
+	ir repositories.IItemRepository
+	il logic.IItemsLogic
+	rl logic.IResponseLogic
 }
 
-func NewItemsService(ir repositories.ItemRepository, il logic.ItemsLogic, rl logic.ResponseLogic) ItemsService {
-	return &itemsService{ir, il, rl}
+func NewItemsService(ir repositories.IItemRepository, il logic.IItemsLogic, rl logic.IResponseLogic) *ItemsService {
+	return &ItemsService{ir, il, rl}
 }
 
-func (is *itemsService) GetAllItems(w http.ResponseWriter, userId int) ([]models.BaseItemResponse, error) {
+func (is *ItemsService) GetAllItems(w http.ResponseWriter, userId int) ([]models.BaseItemResponse, error) {
 	var items []models.Item
 	if err := is.ir.GetAllItems(&items, userId); err != nil {
 		var errMessage string
@@ -64,7 +64,7 @@ func (is *itemsService) GetAllItems(w http.ResponseWriter, userId int) ([]models
 	return itemsResponse, nil
 }
 
-func (is *itemsService) GetItemById(w http.ResponseWriter, r *http.Request, userId int) (models.BaseItemResponse, error) {
+func (is *ItemsService) GetItemById(w http.ResponseWriter, r *http.Request, userId int) (models.BaseItemResponse, error) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -96,7 +96,7 @@ func (is *itemsService) GetItemById(w http.ResponseWriter, r *http.Request, user
 	return itemResponse, nil
 }
 
-func (is *itemsService) CreateItem(w http.ResponseWriter, r *http.Request, userId int) (models.BaseItemResponse, error) {
+func (is *ItemsService) CreateItem(w http.ResponseWriter, r *http.Request, userId int) (models.BaseItemResponse, error) {
 	resBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		errMessage := "リクエストボディの読み取り処理でエラー発生"
@@ -150,7 +150,7 @@ func (is *itemsService) CreateItem(w http.ResponseWriter, r *http.Request, userI
 	return itemResponse, nil
 }
 
-func (is *itemsService) DeleteItem(w http.ResponseWriter, r *http.Request, userId int) error {
+func (is *ItemsService) DeleteItem(w http.ResponseWriter, r *http.Request, userId int) error {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -170,7 +170,7 @@ func (is *itemsService) DeleteItem(w http.ResponseWriter, r *http.Request, userI
 	return nil
 }
 
-func (is *itemsService) UpdateItem(w http.ResponseWriter, r *http.Request, userId int) (models.BaseItemResponse, error) {
+func (is *ItemsService) UpdateItem(w http.ResponseWriter, r *http.Request, userId int) (models.BaseItemResponse, error) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -239,7 +239,7 @@ func (is *itemsService) UpdateItem(w http.ResponseWriter, r *http.Request, userI
 
 // レスポンス送信
 
-func (is *itemsService) SendAllItemsResponse(w http.ResponseWriter, items *[]models.BaseItemResponse) {
+func (is *ItemsService) SendAllItemsResponse(w http.ResponseWriter, items *[]models.BaseItemResponse) {
 	var response models.AllItemsResponse
 	response.Items = *items
 	responseBody, _ := json.Marshal(response)
@@ -247,20 +247,20 @@ func (is *itemsService) SendAllItemsResponse(w http.ResponseWriter, items *[]mod
 	is.rl.SendResponse(w, responseBody, http.StatusOK)
 }
 
-func (is *itemsService) SendItemResponse(w http.ResponseWriter, item *models.BaseItemResponse) {
+func (is *ItemsService) SendItemResponse(w http.ResponseWriter, item *models.BaseItemResponse) {
 	var response models.ItemResponse
 	response.Item = *item
 	responseBody, _ := json.Marshal(response)
 	is.rl.SendResponse(w, responseBody, http.StatusOK)
 }
 
-func (is *itemsService) SendCreateItemResponse(w http.ResponseWriter, item *models.BaseItemResponse) {
+func (is *ItemsService) SendCreateItemResponse(w http.ResponseWriter, item *models.BaseItemResponse) {
 	var response models.ItemResponse
 	response.Item = *item
 	responseBody, _ := json.Marshal(response)
 	is.rl.SendResponse(w, responseBody, http.StatusCreated)
 }
 
-func (is *itemsService) SendDeleteItemResponse(w http.ResponseWriter) {
+func (is *ItemsService) SendDeleteItemResponse(w http.ResponseWriter) {
 	is.rl.SendNotBodyResponse(w)
 }

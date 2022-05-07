@@ -6,18 +6,18 @@ import (
 	"tobuy-app/api/server/controllers"
 )
 
-type AppRouter interface {
+type IAppRouter interface {
 	SetAppRouting(router *mux.Router)
 }
 
-type appRouter struct {
-	apc controllers.AppController
+type AppRouter struct {
+	ac controllers.IAppController
 }
 
-func NewAppRouter(apc controllers.AppController) AppRouter {
-	return &appRouter{apc}
+func NewAppRouter(ac controllers.IAppController) *AppRouter {
+	return &AppRouter{ac}
 }
 
-func (apr *appRouter) SetAppRouting(router *mux.Router) {
-	router.HandleFunc(basePath, apr.apc.RootPage).Methods("GET")
+func (apr *AppRouter) SetAppRouting(router *mux.Router) {
+	router.HandleFunc(basePath, apr.ac.RootPage).Methods("GET")
 }

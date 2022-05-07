@@ -14,25 +14,25 @@ import (
 	"tobuy-app/api/server/utils/logic"
 )
 
-type AuthService interface {
+type IAuthService interface {
 	GetUserIdFromToken(w http.ResponseWriter, r *http.Request) (int, error)
 	SignIn(w http.ResponseWriter, r *http.Request) (models.User, error)
 	SignUp(w http.ResponseWriter, r *http.Request) (models.User, error)
 	SendAuthResponse(w http.ResponseWriter, user *models.User, code int)
 }
 
-type authService struct {
-	ur repositories.UserRepository
-	al logic.AuthLogic
-	rl logic.ResponseLogic
-	jl logic.JWTLogic
+type AuthService struct {
+	ur repositories.IUserRepository
+	al logic.IAuthLogic
+	rl logic.IResponseLogic
+	jl logic.IJWTLogic
 }
 
-func NewAuthService(ur repositories.UserRepository, al logic.AuthLogic, rl logic.ResponseLogic, jl logic.JWTLogic) AuthService {
-	return &authService{ur, al, rl, jl}
+func NewAuthService(ur repositories.IUserRepository, al logic.IAuthLogic, rl logic.IResponseLogic, jl logic.IJWTLogic) *AuthService {
+	return &AuthService{ur, al, rl, jl}
 }
 
-func (as *authService) GetUserIdFromToken(w http.ResponseWriter, r *http.Request) (int, error) {
+func (as *AuthService) GetUserIdFromToken(w http.ResponseWriter, r *http.Request) (int, error) {
 	// トークンからuserIdを取得
 	userId, err := as.al.GetUserIdFromToken(r)
 	if err != nil {
@@ -46,7 +46,7 @@ func (as *authService) GetUserIdFromToken(w http.ResponseWriter, r *http.Request
 	return userId, nil
 }
 
-func (as *authService) SignIn(w http.ResponseWriter, r *http.Request) (models.User, error) {
+func (as *AuthService) SignIn(w http.ResponseWriter, r *http.Request) (models.User, error) {
 	// RequestのBodyデータを取得
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var signInRequestParam models.SignInRequest
@@ -86,7 +86,7 @@ func (as *authService) SignIn(w http.ResponseWriter, r *http.Request) (models.Us
 	return user, nil
 }
 
-func (as *authService) SignUp(w http.ResponseWriter, r *http.Request) (models.User, error) {
+func (as *AuthService) SignUp(w http.ResponseWriter, r *http.Request) (models.User, error) {
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var signUpRequest models.SignUpRequest
 	if err := json.Unmarshal(reqBody, &signUpRequest); err != nil {
@@ -135,7 +135,7 @@ func (as *authService) SignUp(w http.ResponseWriter, r *http.Request) (models.Us
 
 // レスポンス送信
 
-func (as *authService) SendAuthResponse(w http.ResponseWriter, user *models.User, code int) {
+func (as *AuthService) SendAuthResponse(w http.ResponseWriter, user *models.User, code int) {
 	// jwtトークン作成
 	token, err := as.jl.CreateJwtToken(user)
 	if err != nil {
