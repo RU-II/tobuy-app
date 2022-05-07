@@ -143,6 +143,8 @@ paths:
           description: ""
         "500":
           description: ""
+      security:
+      - JWT: []
       summary: Fetch all items
       tags:
       - fetchAllItems
@@ -168,6 +170,8 @@ paths:
           description: ""
         "500":
           description: ""
+      security:
+      - JWT: []
       summary: Create item
       tags:
       - createItem
@@ -191,6 +195,8 @@ paths:
           description: ""
         "500":
           description: ""
+      security:
+      - JWT: []
       summary: Fetch item by id
       tags:
       - fetchItemBuyId
@@ -214,6 +220,8 @@ paths:
           description: ""
         "500":
           description: ""
+      security:
+      - JWT: []
       summary: Delete item
       tags:
       - deleteItem
@@ -245,6 +253,8 @@ paths:
           description: ""
         "500":
           description: ""
+      security:
+      - JWT: []
       summary: Update item
       tags:
       - updateItem
@@ -309,43 +319,8 @@ paths:
       tags:
       - signUp
 securityDefinitions:
-  ApiKeyAuth:
+  JWT:
     in: header
     name: Authorization
     type: apiKey
-  BasicAuth:
-    type: basic
-  OAuth2AccessCode:
-    authorizationUrl: https://example.com/oauth/authorize
-    flow: accessCode
-    scopes:
-      admin: '                            Grants read and write access to administrative
-        information'
-    tokenUrl: https://example.com/oauth/token
-    type: oauth2
-  OAuth2Application:
-    flow: application
-    scopes:
-      admin: '                             Grants read and write access to administrative
-        information'
-      write: '                             Grants write access'
-    tokenUrl: https://example.com/oauth/token
-    type: oauth2
-  OAuth2Implicit:
-    authorizationUrl: https://example.com/oauth/authorize
-    flow: implicit
-    scopes:
-      admin: '                          Grants read and write access to administrative
-        information'
-      write: '                          Grants write access'
-    type: oauth2
-  OAuth2Password:
-    flow: password
-    scopes:
-      admin: '                          Grants read and write access to administrative
-        information'
-      read: '                           Grants read access'
-      write: '                          Grants write access'
-    tokenUrl: https://example.com/oauth/token
-    type: oauth2
 swagger: "2.0"
