@@ -1,0 +1,32 @@
+version: "3"
+services:
+  db:
+    container_name: postgres
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=tobuyapp
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+      - ./postgresql/initdb:/docker-entrypoint-initdb.d
+
+  api:
+    build:
+      context: .
+      dockerfile: ./api/server/Dockerfile
+    tty: true # コンテナの永続化
+    volumes:
+      - ./api/server:/go/src/app
+    env_file:
+      - ./api/server/.env
+      - ./api/server/.env.docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
