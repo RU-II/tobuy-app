@@ -138,11 +138,11 @@ func (ic *itemsController) DeleteItem(w http.ResponseWriter, r *http.Request) {
 // @Produce      json
 // @Security     JWT
 // @Param        id           path      int                         true  "Item ID"
-// @Param        requestBody  body      models.MutationItemRequest  true  "Update Item Create"
+// @Param        requestBody  body      models.MutationItemRequest  true  "Update Item Request"
 // @Success      200          {object}  models.ItemResponse
 // @Failure      400
 // @Failure      500
-// @Router       /items/{id}/update [post]]
+// @Router       /items/{id}/update [post]
 func (ic *itemsController) UpdateItem(w http.ResponseWriter, r *http.Request) {
 	userId, err := ic.as.GetUserIdFromToken(w, r)
 	if err != nil {

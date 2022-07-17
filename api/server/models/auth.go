@@ -17,13 +17,7 @@ type SignUpRequest struct {
 	Password string `gorm:"varchar(255);not null" json:"password,omitempty" example:"password"`
 }
 
-type UserResponse struct {
-	BaseModel
-	Name  string `gorm:"size:255" json:"name,omitempty" example:"test user"`
-	Email string `gorm:"size:255;not null;unique" json:"email,omitempty" example:"test@example.com"`
-}
-
 type AuthResponse struct {
-	Token string       `json:"token" example:"ajiji1j98a"`
-	User  UserResponse `json:"user"`
+	Token string           `json:"token" example:"ajiji1j98a"`
+	User  BaseUserResponse `json:"user"`
 }

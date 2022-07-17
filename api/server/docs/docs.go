@@ -206,7 +206,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Update Item Create",
+                        "description": "Update Item Request",
                         "name": "requestBody",
                         "in": "body",
                         "required": true,
@@ -221,6 +221,135 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ItemResponse"
                         }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/me/delete": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Delete User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deleteUser"
+                ],
+                "summary": "Delete User",
+                "parameters": [
+                    {
+                        "description": "Delete User Request",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DeleteUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/me/update": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Update user's information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "updateUser"
+                ],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "description": "Update User Request",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/me/update/password": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Update user's password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "updatePassword"
+                ],
+                "summary": "Update Password",
+                "parameters": [
+                    {
+                        "description": "Update User's Password Request",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdatePasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
                     },
                     "400": {
                         "description": ""
@@ -344,7 +473,7 @@ const docTemplate = `{
                     "example": "ajiji1j98a"
                 },
                 "user": {
-                    "$ref": "#/definitions/models.UserResponse"
+                    "$ref": "#/definitions/models.BaseUserResponse"
                 }
             }
         },
@@ -390,6 +519,44 @@ const docTemplate = `{
                 "updated_at": {
                     "type": "string",
                     "example": "2022-05-01T17:23:17.494039+09:00"
+                }
+            }
+        },
+        "models.BaseUserResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2022-05-01T17:23:17.494039+09:00"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "example": ""
+                },
+                "email": {
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "test user"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2022-05-01T17:23:17.494039+09:00"
+                }
+            }
+        },
+        "models.DeleteUserRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "password"
                 }
             }
         },
@@ -460,32 +627,37 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UserResponse": {
+        "models.UpdatePasswordRequest": {
             "type": "object",
             "properties": {
-                "created_at": {
+                "new_password": {
                     "type": "string",
-                    "example": "2022-05-01T17:23:17.494039+09:00"
+                    "example": "newPassword"
                 },
-                "deleted_at": {
+                "password": {
                     "type": "string",
-                    "example": ""
-                },
+                    "example": "password"
+                }
+            }
+        },
+        "models.UpdateUserRequest": {
+            "type": "object",
+            "properties": {
                 "email": {
                     "type": "string",
                     "example": "test@example.com"
                 },
-                "id": {
-                    "type": "integer",
-                    "example": 1
-                },
                 "name": {
                     "type": "string",
                     "example": "test user"
-                },
-                "updated_at": {
-                    "type": "string",
-                    "example": "2022-05-01T17:23:17.494039+09:00"
+                }
+            }
+        },
+        "models.UserResponse": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/models.BaseUserResponse"
                 }
             }
         }

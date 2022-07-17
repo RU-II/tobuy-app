@@ -50,6 +50,7 @@ func main() {
 	itemsLogic := logic.NewItemsLogic()
 	responseLogic := logic.NewResponseLogic()
 	jwtLogic := logic.NewJWTLogic()
+	usersLogic := logic.NewUsersLogic()
 
 	// repository層
 	userRepo := repositories.NewUserRepository(db)
@@ -58,13 +59,14 @@ func main() {
 	// service層
 	authService := services.NewAuthService(userRepo, authLogic, responseLogic, jwtLogic)
 	itemsService := services.NewItemsService(itemsRepo, itemsLogic, responseLogic)
+	usersService := services.NewUsersService(userRepo, usersLogic, responseLogic, authLogic)
 
 	// controller層
 	appController := controllers.NewAppController()
 	authController := controllers.NewAuthController(authService)
 	groupsController := controllers.NewGroupsController()
 	itemsController := controllers.NewItemsController(itemsService, authService)
-	usersController := controllers.NewUsersController()
+	usersController := controllers.NewUsersController(usersService, authService)
 
 	// router設定
 	appRouter := router.NewAppRouter(appController)

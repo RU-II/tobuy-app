@@ -11,5 +11,5 @@
   // "go.formatFlags": ["-local", "tobuy-app/api/server/controllers"],
 
   // workspaceスペルミス除外リスト
-  "cSpell.words": ["tobuy", "zlogger"]
+  "cSpell.words": ["tobuy", "varchar", "zlogger"]
 }

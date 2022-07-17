@@ -13,7 +13,7 @@ definitions:
         example: ajiji1j98a
         type: string
       user:
-        $ref: '#/definitions/models.UserResponse'
+        $ref: '#/definitions/models.BaseUserResponse'
     type: object
   models.BaseItemResponse:
     properties:
@@ -46,6 +46,33 @@ definitions:
         type: integer
       updated_at:
         example: "2022-05-01T17:23:17.494039+09:00"
+        type: string
+    type: object
+  models.BaseUserResponse:
+    properties:
+      created_at:
+        example: "2022-05-01T17:23:17.494039+09:00"
+        type: string
+      deleted_at:
+        example: ""
+        type: string
+      email:
+        example: test@example.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: test user
+        type: string
+      updated_at:
+        example: "2022-05-01T17:23:17.494039+09:00"
+        type: string
+    type: object
+  models.DeleteUserRequest:
+    properties:
+      password:
+        example: password
         type: string
     type: object
   models.ItemResponse:
@@ -95,26 +122,28 @@ definitions:
         example: password
         type: string
     type: object
-  models.UserResponse:
+  models.UpdatePasswordRequest:
     properties:
-      created_at:
-        example: "2022-05-01T17:23:17.494039+09:00"
+      new_password:
+        example: newPassword
         type: string
-      deleted_at:
-        example: ""
+      password:
+        example: password
         type: string
+    type: object
+  models.UpdateUserRequest:
+    properties:
       email:
         example: test@example.com
         type: string
-      id:
-        example: 1
-        type: integer
       name:
         example: test user
         type: string
-      updated_at:
-        example: "2022-05-01T17:23:17.494039+09:00"
-        type: string
+    type: object
+  models.UserResponse:
+    properties:
+      user:
+        $ref: '#/definitions/models.BaseUserResponse'
     type: object
 info:
   contact:
@@ -236,7 +265,7 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Update Item Create
+      - description: Update Item Request
         in: body
         name: requestBody
         required: true
@@ -258,6 +287,86 @@ paths:
       summary: Update item
       tags:
       - updateItem
+  /me/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete User
+      parameters:
+      - description: Delete User Request
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/models.DeleteUserRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: ""
+        "500":
+          description: ""
+      security:
+      - JWT: []
+      summary: Delete User
+      tags:
+      - deleteUser
+  /me/update:
+    post:
+      consumes:
+      - application/json
+      description: Update user's information
+      parameters:
+      - description: Update User Request
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: ""
+        "500":
+          description: ""
+      security:
+      - JWT: []
+      summary: Update User
+      tags:
+      - updateUser
+  /me/update/password:
+    post:
+      consumes:
+      - application/json
+      description: Update user's password
+      parameters:
+      - description: Update User's Password Request
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: ""
+        "500":
+          description: ""
+      security:
+      - JWT: []
+      summary: Update Password
+      tags:
+      - updatePassword
   /signin:
     post:
       consumes:
