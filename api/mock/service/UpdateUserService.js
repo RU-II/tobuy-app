@@ -2,28 +2,23 @@
 
 
 /**
- * Update item
- * Update user's item
+ * Update User
+ * Update user's information
  *
- * body Models.MutationItemRequest Update Item Request
- * id Integer Item ID
- * returns models.ItemResponse
+ * body Models.UpdateUserRequest Update User Request
+ * returns models.UserResponse
  **/
-exports.itemsIdUpdatePOST = function(body,id) {
+exports.meUpdatePOST = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "item" : {
-    "number" : 1,
-    "category_id" : 1,
+  "user" : {
     "updated_at" : "2022-05-01T17:23:17.494039+09:00",
-    "name" : "test item",
+    "name" : "test user",
     "created_at" : "2022-05-01T17:23:17.494039+09:00",
-    "description" : "This is a test item",
-    "counter" : "数",
     "id" : 1,
     "deleted_at" : "",
-    "status" : 0
+    "email" : "test@example.com"
   }
 };
     if (Object.keys(examples).length > 0) {

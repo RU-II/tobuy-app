@@ -145,7 +145,7 @@ paths:
         schema:
           type: integer
       requestBody:
-        description: Update Item Create
+        description: Update Item Request
         content:
           application/json:
             schema:
@@ -168,6 +168,93 @@ paths:
       - JWT: []
       x-codegen-request-body-name: requestBody
       x-swagger-router-controller: UpdateItem
+  /me/delete:
+    post:
+      tags:
+      - deleteUser
+      summary: Delete User
+      description: Delete User
+      operationId: meDeletePOST
+      requestBody:
+        description: Delete User Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.DeleteUserRequest'
+        required: true
+      responses:
+        "204":
+          description: ""
+          content: {}
+        "400":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: requestBody
+      x-swagger-router-controller: DeleteUser
+  /me/update:
+    post:
+      tags:
+      - updateUser
+      summary: Update User
+      description: Update user's information
+      operationId: meUpdatePOST
+      requestBody:
+        description: Update User Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.UpdateUserRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.UserResponse'
+        "400":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: requestBody
+      x-swagger-router-controller: UpdateUser
+  /me/update/password:
+    post:
+      tags:
+      - updatePassword
+      summary: Update Password
+      description: Update user's password
+      operationId: meUpdatePasswordPOST
+      requestBody:
+        description: Update User's Password Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.UpdatePasswordRequest'
+        required: true
+      responses:
+        "200":
+          description: ""
+          content: {}
+        "400":
+          description: ""
+          content: {}
+        "500":
+          description: ""
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: requestBody
+      x-swagger-router-controller: UpdatePassword
   /signin:
     post:
       tags:
@@ -276,7 +363,7 @@ components:
           type: string
           example: ajiji1j98a
         user:
-          $ref: '#/components/schemas/models.UserResponse'
+          $ref: '#/components/schemas/models.BaseUserResponse'
       example:
         user:
           updated_at: 2022-05-01T17:23:17.494039+09:00
@@ -330,6 +417,40 @@ components:
         id: 1
         deleted_at: ""
         status: 0
+    models.BaseUserResponse:
+      type: object
+      properties:
+        created_at:
+          type: string
+          example: 2022-05-01T17:23:17.494039+09:00
+        deleted_at:
+          type: string
+          example: ""
+        email:
+          type: string
+          example: test@example.com
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: test user
+        updated_at:
+          type: string
+          example: 2022-05-01T17:23:17.494039+09:00
+      example:
+        updated_at: 2022-05-01T17:23:17.494039+09:00
+        name: test user
+        created_at: 2022-05-01T17:23:17.494039+09:00
+        id: 1
+        deleted_at: ""
+        email: test@example.com
+    models.DeleteUserRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          example: password
     models.ItemResponse:
       type: object
       properties:
@@ -389,34 +510,37 @@ components:
         password:
           type: string
           example: password
-    models.UserResponse:
+    models.UpdatePasswordRequest:
       type: object
       properties:
-        created_at:
+        new_password:
           type: string
-          example: 2022-05-01T17:23:17.494039+09:00
-        deleted_at:
+          example: newPassword
+        password:
           type: string
-          example: ""
+          example: password
+    models.UpdateUserRequest:
+      type: object
+      properties:
         email:
           type: string
           example: test@example.com
-        id:
-          type: integer
-          example: 1
         name:
           type: string
           example: test user
-        updated_at:
-          type: string
-          example: 2022-05-01T17:23:17.494039+09:00
+    models.UserResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/models.BaseUserResponse'
       example:
-        updated_at: 2022-05-01T17:23:17.494039+09:00
-        name: test user
-        created_at: 2022-05-01T17:23:17.494039+09:00
-        id: 1
-        deleted_at: ""
-        email: test@example.com
+        user:
+          updated_at: 2022-05-01T17:23:17.494039+09:00
+          name: test user
+          created_at: 2022-05-01T17:23:17.494039+09:00
+          id: 1
+          deleted_at: ""
+          email: test@example.com
   securitySchemes:
     JWT:
       type: apiKey
